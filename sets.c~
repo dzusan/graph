@@ -190,10 +190,9 @@ void PrintGraphInf(void)
 	for(countString = 0; countString <= globalCountFirst; countString++)
 	{
 	  for(countColon = 0; countColon <= globalCountSecond; countColon++)
-	  {
 	    printf("%d", edges[countString][countColon]);
-	    if(edges[countString][countColon] != 0) edgesNumber++;
-	  }
+	    //if(edges[countString][countColon] != 0) 
+	    edgesNumber++;
 	    printf("\n");
 	}
 	
