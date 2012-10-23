@@ -20,6 +20,7 @@ void AddPosition(int*, int*);
 void AddEdge(void);
 void PrintGraphInf(void);
 void DefaultValues(int*, int*);
+void GraphViz(int*, int*);
 
 int main(void)
 {
@@ -42,6 +43,7 @@ int main(void)
 9: Add edges\n\
 10: Print graph infirmation\n\
 11: Set default values\n\
+12: Graph vizualization\n\
 \nChoose your destiny! : ");
 
 		scanf("%d", &answ);
@@ -59,7 +61,7 @@ int main(void)
 			case 9: AddEdge();                                break;
 			case 10: PrintGraphInf();                         break;
 			case 11: DefaultValues(first, second);            break;
-			
+		        case 12: GraphViz(first, second);                 break;
 		}
 	}
 	
@@ -209,4 +211,30 @@ void DefaultValues(int *setFirst, int *setSecond)
 	for(count = 0; count <= 13; count++) setFirst[count] = count * 12;
 	for(count = 0; count <= 14; count++) setSecond[count] = count * 15;
 	for(count = 0; count <= 13; count++) edges[count][count] = 1;
+}
+
+void GraphViz(int *setFirst, int *setSecond)
+{
+  int count, countString, countColon;
+  
+  FILE * graphText; 
+  graphText = fopen("graph.dot","wt");
+  fprintf(graphText, "graph yehoo {");
+    
+  for(count = 0; count <= globalCountFirst; count++)
+    fprintf(graphText, "%d;", setFirst[count]);
+  for(count = 0; count <= globalCountSecond; count++) 
+    fprintf(graphText, "%d;", setSecond[count]);
+  for(countString = 0; countString <= globalCountFirst; countString++)
+    for(countColon = 0; countColon <= globalCountSecond; countColon++)
+      if(edges[countString][countColon] != 0)
+	fprintf(graphText, "%d -- %d;", setFirst[countString], setSecond[countColon]);
+  
+  fprintf(graphText, "}");
+	    
+  //fprintf(graphText, "graph yehoo {a;b;c;d;e;a -- b -- e; c -- d;}");
+  fclose(graphText);
+  
+  system("dot -Tpng graph.dot -o graph.png");
+  system("feh graph.png");
 }
